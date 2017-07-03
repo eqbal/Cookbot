@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require_relative "../app/twitter_bot"
+include TwitterBot::Helpers
+
+opts = OptionParser.new
+
+opts.banner = <<-EOS
+Register a Bot with Twitter, and generate a script to run
+it. This script will listen to a keyword and reply with
+the receipe.
+Usage: #{File.basename($0)} [options]
+EOS
+
+opts.separator ""
+opts.separator "Options:"
+
+opts.on('-l', '--listen', "Specify a DB connection URI")
+
+opts.on_tail("-h", "--help", "Show this message") do
+  puts opts
+  exit
+end
+
+#begin
+  logger.info "Start the listener"
+  TwitterBot::Listener.new.call
+#rescue Exception => e
+  #logger.error e.inspect
+#end
+
